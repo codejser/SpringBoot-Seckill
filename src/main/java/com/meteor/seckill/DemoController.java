@@ -1,6 +1,8 @@
 package com.meteor.seckill;
 
 import com.meteor.seckill.domain.User;
+import com.meteor.seckill.redis.RedisService;
+import com.meteor.seckill.redis.UserKey;
 import com.meteor.seckill.result.CodeMsg;
 import com.meteor.seckill.result.Result;
 import com.meteor.seckill.service.UserService;
@@ -19,6 +21,9 @@ public class DemoController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
 
     @RequestMapping("/")
     @ResponseBody
@@ -57,5 +62,23 @@ public class DemoController {
     public Result<Boolean> dbShiwu(){
         userService.insert();
         return Result.success(true);
+    }
+
+    //测试封装的redis方法
+    @RequestMapping("/redis/set")
+    @ResponseBody
+    public Result<Boolean> redisSet() {
+        User user  = new User();
+        user.setId(1);
+        user.setName("1111");
+        redisService.set(UserKey.getById, ""+1, user);//UserKey:id1
+        return Result.success(true);
+    }
+
+    @RequestMapping("/redis/get")
+    @ResponseBody
+    public Result<User> redisGet() {
+        User  user  = redisService.get(UserKey.getById, ""+1, User.class);
+        return Result.success(user);
     }
 }
