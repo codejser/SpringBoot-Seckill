@@ -1,7 +1,10 @@
 package com.meteor.seckill;
 
+import com.meteor.seckill.domain.User;
 import com.meteor.seckill.result.CodeMsg;
 import com.meteor.seckill.result.Result;
+import com.meteor.seckill.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/demo")
 public class DemoController {
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/")
     @ResponseBody
@@ -37,5 +43,19 @@ public class DemoController {
     public String thymeleaf(Model model){
         model.addAttribute("name","meteor");
         return "hello";
+    }
+
+    @RequestMapping("/db/get")
+    @ResponseBody
+    public Result<User> dbGet(){
+        User user = userService.getUserId(1);
+        return Result.success(user);
+    }
+
+    @RequestMapping("/db/shiwu")
+    @ResponseBody
+    public Result<Boolean> dbShiwu(){
+        userService.insert();
+        return Result.success(true);
     }
 }
