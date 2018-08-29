@@ -3,6 +3,9 @@ package com.meteor.seckill.redis;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * 通过注解的形式来读取相关的配置信息
+ */
 @Component
 @ConfigurationProperties(prefix="redis")
 public class RedisConfig {

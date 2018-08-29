@@ -8,6 +8,10 @@ import com.alibaba.fastjson.JSON;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+/**
+ * 封装redis命令的工具类，注解成bean,便于其他类来使用
+ * 注入相应的JedisPool类 调用其getResource() 来生成jedis对象
+ */
 @Service
 public class RedisService {
 	
@@ -33,6 +37,7 @@ public class RedisService {
 	
 	/**
 	 * 设置对象
+	 * 通过设计一种通用的key前缀对象接口，来保证各模块的key值不会重复
 	 * */
 	public <T> boolean set(KeyPrefix prefix, String key,  T value) {
 		 Jedis jedis = null;
@@ -100,7 +105,13 @@ public class RedisService {
 			  returnToPool(jedis);
 		 }
 	}
-	
+
+	/**
+	 * 将传入的对象转换成字符串
+	 * @param value
+	 * @param <T>
+	 * @return
+	 */
 	private <T> String beanToString(T value) {
 		if(value == null) {
 			return null;
