@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 public interface UserDao {
 
     @Select("select * from user where id = #{id}")
-    User getUserById(@Param("id") int id);
+    User getUserById(@Param("id") long id);
 
-
-    @Insert("insert into user(id,name) values(#{id},#{name})")
-    int insert(User user);
 }

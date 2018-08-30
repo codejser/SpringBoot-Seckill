@@ -1,5 +1,7 @@
 package com.meteor.seckill.result;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
+
 /**
  * @Author: meteor @Date: 2018/8/29 14:19
  * 封装错误代码和对应错误信息的工具类
@@ -14,7 +16,10 @@ public class CodeMsg {
     public static CodeMsg SUCCESS = new CodeMsg(0,"success");
     public static CodeMsg SERVER_ERROR = new CodeMsg(500100,"服务器异常");
 
-    //其他异常
+    //登陆异常
+    public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(501101,"手机号不存在");
+    public static CodeMsg PASSWORD_ERROR = new CodeMsg(501102,"密码错误");
+
 
     //构造器
     public CodeMsg(int code,String msg){
@@ -30,5 +35,13 @@ public class CodeMsg {
 
     public String getMsg() {
         return msg;
+    }
+
+    @Override
+    public String toString() {
+        return "CodeMsg{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
     }
 }

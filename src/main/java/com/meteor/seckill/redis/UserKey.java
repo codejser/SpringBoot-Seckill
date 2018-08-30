@@ -2,9 +2,19 @@ package com.meteor.seckill.redis;
 
 public class UserKey extends BasePrefix{
 
-	private UserKey(String prefix) {
-		super(prefix);
+	/**
+	 * 私有构造方法：过期时间和key的前缀
+	 * @param expireSeconds
+	 * @param prefix
+	 */
+	private UserKey(int expireSeconds,String prefix) {
+		super(expireSeconds,prefix);
 	}
-	public static UserKey getById = new UserKey("id");
-	public static UserKey getByName = new UserKey("name");
+
+	//token的过期时间:2天
+	public static final int TOKEN_EXPIRE = 3600*24*2;
+
+	//具体的token
+	public static UserKey token = new UserKey(TOKEN_EXPIRE,"tx");
+
 }

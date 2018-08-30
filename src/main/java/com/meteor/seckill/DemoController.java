@@ -1,3 +1,4 @@
+/*
 package com.meteor.seckill;
 
 import com.meteor.seckill.domain.User;
@@ -12,9 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+*/
 /**
  * @Author: meteor @Date: 2018/8/29 14:07
- */
+ *//*
+
 @Controller
 @RequestMapping("/demo")
 public class DemoController {
@@ -82,3 +85,4 @@ public class DemoController {
         return Result.success(user);
     }
 }
+*/
