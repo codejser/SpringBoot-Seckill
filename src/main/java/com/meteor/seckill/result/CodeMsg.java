@@ -20,6 +20,9 @@ public class CodeMsg {
     public static CodeMsg MOBILE_NOT_EXIST = new CodeMsg(501101,"手机号不存在");
     public static CodeMsg PASSWORD_ERROR = new CodeMsg(501102,"密码错误");
 
+    //秒杀异常
+    public static CodeMsg STOCK_EMPTY = new CodeMsg(502101,"库存不足");
+    public static CodeMsg REPEANT_SECKILL = new CodeMsg(502102,"重复秒杀");
 
     //构造器
     public CodeMsg(int code,String msg){
