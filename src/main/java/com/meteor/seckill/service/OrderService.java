@@ -7,6 +7,7 @@ import com.meteor.seckill.domain.SeckillOrder;
 import com.meteor.seckill.domain.User;
 import com.meteor.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,10 @@ public class OrderService {
      */
     public SeckillOrder getSeckillOrder(long useId,long goodsId){
         return seckillOrderDao.getSeckillOrder(useId,goodsId);
+    }
+
+    public OrderInfo getOrderById(long orderId){
+        return orderInfoDao.getOrderById(orderId);
     }
 
     //秒杀逻辑之一:创建订单(两个表：seckill_order/order_info)

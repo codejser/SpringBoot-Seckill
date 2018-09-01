@@ -3,6 +3,7 @@ package com.meteor.seckill.dao;
 import com.meteor.seckill.domain.OrderInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +18,9 @@ public interface OrderInfoDao {
             + "#{userId}, #{goodsId}, #{goodsName}, #{goodsCount}, #{goodsPrice}, #{orderChannel},#{status},#{createTime} )")
     @SelectKey(keyColumn="id", keyProperty="id", resultType=long.class, before=false, statement="select last_insert_id()")
     long insert(OrderInfo orderInfo);
+
+
+    @Select("select * order_info from where order_id = #{orderId}")
+    OrderInfo getOrderById(long orderId);
 
 }
