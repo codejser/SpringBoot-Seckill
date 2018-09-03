@@ -59,13 +59,18 @@
 
 
 <script>
+    $(function(){
+        getOrderDetail();
+    })
 
-    //用ajax来获取页面所需的详情信息
-    function getDetail(){
+    function getOrderDetail(){
         var orderId = g_getQueryString("orderId");
         $.ajax({
-            url:"/order/detail/"+orderId,
+            url:"/order/detail",
             type:"GET",
+            data:{
+                orderId:orderId
+            },
             success:function(data){
                 if(data.code == 0){
                     render(data.data);
@@ -74,7 +79,7 @@
                 }
             },
             error:function(){
-                layer.msg("客户端请求有误");
+                layer.msg("客户端zhen有误");
             }
         });
     }
@@ -94,11 +99,6 @@
             $("#orderStatus").text("待发货");
         }
     }
-
-    $(function(){
-        /*countDown();*/
-        getDetail();
-    });
 </script>
 </body>
 </html>

@@ -9,7 +9,9 @@ import com.meteor.seckill.service.GoodsService;
 import com.meteor.seckill.service.OrderService;
 import com.meteor.seckill.vo.OrderDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -26,9 +28,9 @@ public class OrderController {
     @Autowired
     GoodsService goodsService;
 
-    @RequestMapping("/detail/{orderId}")
+    @RequestMapping("/detail")
     @ResponseBody
-    public Result<OrderDetailVo> detail(User user,long orderId){
+    public Result<OrderDetailVo> detail(User user,@RequestParam("orderId")long orderId){
         if (user == null){
             return Result.error(CodeMsg.NEED_LOGIN);
         }

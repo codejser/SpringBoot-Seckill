@@ -5,6 +5,8 @@ import com.meteor.seckill.dao.SeckillOrderDao;
 import com.meteor.seckill.domain.OrderInfo;
 import com.meteor.seckill.domain.SeckillOrder;
 import com.meteor.seckill.domain.User;
+import com.meteor.seckill.redis.OrderKey;
+import com.meteor.seckill.redis.RedisService;
 import com.meteor.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -25,14 +27,20 @@ public class OrderService {
     @Autowired
     OrderInfoDao orderInfoDao;
 
+    @Autowired
+    RedisService redisService;
+
     /**
      * 查找相应的订单
-     * @param useId
+     * @param userId
      * @param goodsId
      * @return
      */
-    public SeckillOrder getSeckillOrder(long useId,long goodsId){
-        return seckillOrderDao.getSeckillOrder(useId,goodsId);
+    public SeckillOrder getSeckillOrder(long userId,long goodsId){
+        //return seckillOrderDao.getSeckillOrder(userId,goodsId);
+        //查找订单需要查询数据库，可以优化成查redis缓存，把参数作为key的一部分，秒杀订单对象作为值；
+        return redisService.get(OrderKey.seckillOrderKey,""+ userId+"_"+goodsId,SeckillOrder.class);
+
     }
 
     public OrderInfo getOrderById(long orderId){
@@ -51,12 +59,16 @@ public class OrderService {
         orderInfo.setOrderChannel(1);
         orderInfo.setStatus(0);
         orderInfo.setUserId(user.getId());
-        long orderId = orderInfoDao.insert(orderInfo);
+        orderInfoDao.insert(orderInfo);
         SeckillOrder seckillOrder = new SeckillOrder();
         seckillOrder.setUserId(user.getId());
         seckillOrder.setGoodsId(goodsVo.getId());
-        seckillOrder.setOrderId(orderId);
+        seckillOrder.setOrderId(orderInfo.getId());
         seckillOrderDao.insertSeckillOrder(seckillOrder);
+
+        //生成秒杀订单的同时，将seckillOrder存入缓存，便于下次直接查询缓存
+        redisService.set(OrderKey.seckillOrderKey,""+ user.getId()+"_"+goodsVo.getId(),seckillOrder);
+
         return orderInfo;
     }
 }
